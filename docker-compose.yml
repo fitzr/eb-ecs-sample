@@ -1,0 +1,25 @@
+version: '2'
+services:
+  node-app1:
+    image: node:6.9.1-slim
+    volumes:
+    - ./node-app1:/usr/src/app
+    working_dir: /usr/src/app
+    command: npm start
+
+  node-app2:
+    image: node:6.9.1-slim
+    volumes:
+    - ./node-app2:/usr/src/app
+    working_dir: /usr/src/app
+    command: npm start
+
+  nginx-proxy:
+    image: nginx
+    volumes:
+    - ./proxy/conf.d:/etc/nginx/conf.d
+    ports:
+    - "80:80"
+    links:
+    - node-app1
+    - node-app2
